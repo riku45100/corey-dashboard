@@ -19,22 +19,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      - name: Test assignment model
-        run: node job-assignments.test.cjs
+      - name: Test export and assignment models
+        run: |
+          node job-assignments.test.cjs
+          node export-branding.test.cjs
       - name: Prepare public dashboard files
         run: |
           mkdir -p _site
-          cp index.html date-format.js staff-module.js staff.html job-assignments.js job-assignments.html _site/
+          cp index.html date-format.js staff-module.js staff.html job-assignments.js job-assignments.html export-branding.js _site/
           python3 - <<'PY'
           from pathlib import Path
-          path = Path('_site/index.html')
-          html = path.read_text()
-          marker = '</body>'
-          if marker not in html:
-              raise SystemExit('Dashboard body closing tag not found')
-          scripts = '<script src="date-format.js"></script><script src="staff-module.js"></script><script src="job-assignments.js"></script>'
-          html = html.replace(marker, scripts + marker, 1)
-          path.write_text(html)
+          for name in ('index.html', 'staff.html', 'job-assignments.html'):
+              path = Path('_site') / name
+              html = path.read_text()
+              marker = '</body>'
+              if marker not in html:
+                  raise SystemExit('Body closing tag not found: ' + name)
+              scripts = '<script src="export-branding.js"></script>'
+              if name == 'index.html':
+                  scripts = '<script src="date-format.js"></script><script src="staff-module.js"></script><script src="job-assignments.js"></script>' + scripts
+              path.write_text(html.replace(marker, scripts + marker, 1))
           PY
           if [ -f corex.jpg ]; then
             cp corex.jpg _site/corex.jpg
