@@ -23,7 +23,14 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html _site/
-          if [ -f corex.jpg ]; then cp corex.jpg _site/; fi
+          if [ -f corex.jpg.b64 ]; then
+            base64 --decode corex.jpg.b64 > _site/corex.jpg
+            echo '45f1b611230d8bb1fc1d1f8015af7b3565689dd667f060d80134aa27dded9e8b  _site/corex.jpg' | sha256sum --check
+          elif [ -f corex.jpg ]; then
+            cp corex.jpg _site/
+          else
+            echo 'Logo has not been uploaded yet.'
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
