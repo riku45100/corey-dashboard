@@ -1,0 +1,4 @@
+msal>=1.31,<2
+requests>=2.32.4,<3
+openpyxl>=3.1.5,<4
+defusedxml>=0.7.1,<1

@@ -1,0 +1,49 @@
+{
+  "sources": [
+    {
+      "id": "quality-workbook",
+      "enabled": false,
+      "driveId": "REPLACE_WITH_DRIVE_ID",
+      "itemId": "REPLACE_WITH_WORKBOOK_ITEM_ID",
+      "sheets": [
+        {
+          "name": "Alerts",
+          "dataset": "alerts",
+          "idField": "AlertID",
+          "columns": {
+            "AlertID": "AlertID",
+            "ProjectID": "ProjectID",
+            "Severity": "Severity",
+            "Status": "Status",
+            "Alert": "Alert",
+            "Project": "Project",
+            "Owner": "Owner",
+            "Due": "Due",
+            "Action": "Action"
+          }
+        }
+      ]
+    },
+    {
+      "id": "projects-workbook",
+      "enabled": false,
+      "driveId": "REPLACE_WITH_DRIVE_ID",
+      "itemId": "REPLACE_WITH_WORKBOOK_ITEM_ID",
+      "sheets": [
+        {
+          "name": "Projects",
+          "dataset": "projects",
+          "idField": "ProjectID",
+          "columns": {
+            "ProjectID": "ProjectID",
+            "Project": "Project",
+            "Client": "Client",
+            "Phase": "Phase",
+            "Progress": "Progress",
+            "Status": "Status"
+          }
+        }
+      ]
+    }
+  ]
+}

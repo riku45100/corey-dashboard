@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+.private-sync/
+backend/sources.local.json
+backend/*.pem
+backend/*.key
+backend/*.pfx
+.venv/
+__pycache__/
+*.pyc
