@@ -1,0 +1,4 @@
+AssignmentID,StaffID,ProjectID,JobTitle,WeekStart,Hours,Status,Notes
+JOB-001,DEMO-001,D4,Integrated testing,26/10/2026,32,In progress,Fictional demonstration
+JOB-002,DEMO-001,PHARMA,Inspection review,26/10/2026,16,Planned,Demonstrates weekly overload
+JOB-003,DEMO-002,PHARMA,Validation documentation,26/10/2026,30,Planned,Fictional demonstration
