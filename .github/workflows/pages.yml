@@ -22,7 +22,17 @@ jobs:
       - name: Prepare public dashboard files
         run: |
           mkdir -p _site
-          cp index.html _site/
+          cp index.html date-format.js _site/
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('_site/index.html')
+          html = path.read_text()
+          marker = '</body>'
+          if marker not in html:
+              raise SystemExit('Dashboard body closing tag not found')
+          html = html.replace(marker, '<script src="date-format.js"></script>' + marker, 1)
+          path.write_text(html)
+          PY
           if [ -f corex.jpg.b64 ]; then
             base64 --decode corex.jpg.b64 > _site/corex.jpg
             echo '45f1b611230d8bb1fc1d1f8015af7b3565689dd667f060d80134aa27dded9e8b  _site/corex.jpg' | sha256sum --check
