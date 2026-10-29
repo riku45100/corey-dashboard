@@ -33,13 +33,16 @@ jobs:
           html = html.replace(marker, '<script src="date-format.js"></script>' + marker, 1)
           path.write_text(html)
           PY
-          if [ -f corex.jpg.b64 ]; then
+          if [ -f corex.jpg ]; then
+            cp corex.jpg _site/corex.jpg
+          elif [ -f corex.jpeg ]; then
+            cp corex.jpeg _site/corex.jpg
+          elif [ -f corex.jpg.b64 ]; then
             base64 --decode corex.jpg.b64 > _site/corex.jpg
             echo '45f1b611230d8bb1fc1d1f8015af7b3565689dd667f060d80134aa27dded9e8b  _site/corex.jpg' | sha256sum --check
-          elif [ -f corex.jpg ]; then
-            cp corex.jpg _site/
           else
-            echo 'Logo has not been uploaded yet.'
+            echo 'Logo file is missing.' >&2
+            exit 1
           fi
       - uses: actions/upload-pages-artifact@v3
         with:
