@@ -22,7 +22,7 @@ jobs:
       - name: Prepare public dashboard files
         run: |
           mkdir -p _site
-          cp index.html date-format.js _site/
+          cp index.html date-format.js staff-module.js staff.html _site/
           python3 - <<'PY'
           from pathlib import Path
           path = Path('_site/index.html')
@@ -30,7 +30,8 @@ jobs:
           marker = '</body>'
           if marker not in html:
               raise SystemExit('Dashboard body closing tag not found')
-          html = html.replace(marker, '<script src="date-format.js"></script>' + marker, 1)
+          scripts = '<script src="date-format.js"></script><script src="staff-module.js"></script>'
+          html = html.replace(marker, scripts + marker, 1)
           path.write_text(html)
           PY
           if [ -f corex.jpg ]; then
