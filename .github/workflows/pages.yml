@@ -19,14 +19,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      - name: Test export and assignment models
+      - name: Test export and assignment models and warning syntax
         run: |
           node job-assignments.test.cjs
           node export-branding.test.cjs
+          node --check dashboard-warnings.js
       - name: Prepare public dashboard files
         run: |
           mkdir -p _site
-          cp index.html date-format.js staff-module.js staff.html job-assignments.js job-assignments.html export-branding.js _site/
+          cp index.html date-format.js staff-module.js staff.html job-assignments.js job-assignments.html export-branding.js dashboard-warnings.js _site/
           python3 - <<'PY'
           from pathlib import Path
           for name in ('index.html', 'staff.html', 'job-assignments.html'):
@@ -37,7 +38,10 @@ jobs:
                   raise SystemExit('Body closing tag not found: ' + name)
               scripts = '<script src="export-branding.js"></script>'
               if name == 'index.html':
-                  scripts = '<script src="date-format.js"></script><script src="staff-module.js"></script><script src="job-assignments.js"></script>' + scripts
+                  if '</head>' not in html:
+                      raise SystemExit('Head closing tag not found: ' + name)
+                  html = html.replace('</head>', '<style>.overdue-badge{animation:none!important}#toggleAnimation{display:none!important}</style></head>', 1)
+                  scripts = '<script src="date-format.js"></script><script src="staff-module.js"></script><script src="job-assignments.js"></script>' + scripts + '<script src="dashboard-warnings.js"></script>'
               path.write_text(html.replace(marker, scripts + marker, 1))
           PY
           if [ -f corex.jpg ]; then
